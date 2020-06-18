@@ -238,6 +238,13 @@ def train(args, train_dataset, model, tokenizer):
 
     best_f1, best_exact = -1, -1
 
+
+    # model analyze by fovjfozk
+    l = [module for module in model.modules() if type(module) != nn.Sequential]
+    print(type(model))
+    print(l)
+
+    
     for epoch in train_iterator:
         epoch_iterator = tqdm(train_dataloader, desc="Iteration", disable=args.local_rank not in [-1, 0])
         for step, batch in enumerate(epoch_iterator):
@@ -246,7 +253,8 @@ def train(args, train_dataset, model, tokenizer):
             if steps_trained_in_current_epoch > 0:
                 steps_trained_in_current_epoch -= 1
                 continue
-
+            
+            
             model.train()
             batch = tuple(t.to(args.device) for t in batch)
 
